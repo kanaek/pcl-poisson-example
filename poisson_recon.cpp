@@ -48,7 +48,7 @@ int
       NormalEstimationOMP<PointXYZ, Normal> ne;
       ne.setNumberOfThreads(8);
       ne.setInputCloud(filtered);
-      ne.setRadiusSearch(0.01);
+      ne.setRadiusSearch(0.02);
       Eigen::Vector4f centroid;
       compute3DCentroid(*filtered, centroid);
       ne.setViewPoint(centroid[0], centroid[1], centroid[2]);
@@ -70,13 +70,13 @@ int
 
       cout << "begin poisson reconstruction" << endl;
       Poisson<PointNormal> poisson;
-      poisson.setDepth(9);
+      poisson.setDepth(7);
       poisson.setInputCloud(cloud_smoothed_normals);
       PolygonMesh mesh;
       poisson.reconstruct(mesh);
 
-      io::savePLYFile(argv[2], mesh);
-
+      io::savePLYFile("test.ply", mesh);
+      cout << "end poisson reconstruction" << endl;
    }
   return (0);
 }
